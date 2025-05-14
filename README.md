@@ -57,9 +57,23 @@ In this exercise you will:
 ```bash
 # 1) The exact ssh command you ran
 # 2) A detailed, step-by-step explanation of what happened at each stage
-```
 
----
+ Detaillierte Erklärung des Anmeldevorgangs.
+	1.	TCP-Verbindung :
+	- Dein Terminal baut eine TCP-Verbindung zu Port 22 des Remotehosts (IP-Adresse) auf.
+	- Das bedeutet, dass dein Computer eine Anfrage an den SSH-Standardport des entfernten Hosts sendet.
+	2.	Handshake des SSH-Protokolls :
+	- Aushandlung der Algorithmen (Verschlüsselung, Integrität, Komprimierung).
+	- Schlüsselaustausch: in der Regel über Diffie-Hellman oder elliptische Kurven.
+	- Client und Server einigen sich auf temporäre Sitzungsschlüssel.
+	3.	Authentifizierung:
+	- Der Client präsentiert entweder ein Passwort oder einen öffentlichen Schlüssel.
+	- Wenn es sich um einen öffentlichen Schlüssel handelt, beweist der Client, dass er den entsprechenden privaten Schlüssel besitzt, indem er eine Challenge unterschreibt.
+	4.	Zuteilung einer Shell :
+	- Nachdem du dich authentifiziert hast, startet der Server eine Remote-Shell (bash, zsh usw.).
+	- Du kannst nun mit dem entfernten Rechner interagieren.
+	5.	Abmelden:
+	- Wenn du exit eingibst, wird die Shell geschlossen und die SSH-Sitzung ist beendet.
 
 ### Task 2: Ed25519 Key Pair
 
@@ -87,9 +101,18 @@ In this exercise you will:
 # 1) The ssh-keygen command you ran
 # 2) The file paths of the generated keys
 # 3) Your written explanation (3–5 sentences) of the signature process
-```
 
----
+2) Speicherort der erzeugten Dateien.
+	- Privater Schlüssel: ~/.ssh/id_ed25519
+	- Öffentlicher Schlüssel: ~/.ssh/id_ed25519.pub
+
+3) Erklärung, wie digitale Signaturen funktionieren.
+	- Bei einer SSH-Verbindung sendet der Server eine Challenge an den Client.
+	- Der Client signiert diese Challenge mit seinem privaten Schlüssel Ed25519.
+	- Der Server besitzt den entsprechenden öffentlichen Schlüssel (in ~/.ssh/authorized_keys) und kann die Signatur überprüfen, ohne jemals den privaten Schlüssel zu sehen.
+	- Ed25519 wird aufgrund seiner Post-Quantum-Sicherheit, seiner Geschwindigkeit und seiner geringen Ressourcenkosten bevorzugt.
+
+
 
 ### Task 3: SSH Config File
 
@@ -127,9 +150,12 @@ In this exercise you will:
 ```text
 # 1) The full contents of your ~/.ssh/config
 # 2) A short explanation (3–4 sentences) of how the config simplifies connections
-```
 
----
+Die Datei ~/.ssh/config ermöglicht es, SSH-Verbindungen mit Aliasnamen zu vereinfachen.
+	- Host ist der benutzerdefinierte Alias, den du verwenden kannst (z. B. ssh my-remote).
+	- HostName ist die tatsächliche Adresse des Rechners.
+	- Das erspart es dir, jedes Mal den ganzen Befehl mit -i, -p und dem Benutzernamen neu eingeben zu müssen.
+
 
 ### Task 4: SCP File Transfers
 
@@ -165,9 +191,12 @@ In this exercise you will:
 # 1) Each scp command you ran
 # 2) Any flags or options used
 # 3) A brief explanation (2–3 sentences) of scp’s mechanism
-```
 
----
+
+Die Datei ~/.ssh/config ermöglicht es, SSH-Verbindungen mit Aliasnamen zu vereinfachen.
+	- Host ist der benutzerdefinierte Alias, den du verwenden kannst (z. B. ssh my-remote).
+	- HostName ist die tatsächliche Adresse des Rechners.
+	- Das erspart es dir, jedes Mal den ganzen Befehl mit -i, -p und dem Benutzernamen neu eingeben zu müssen.
 
 ### Task 5: Login Shell Script & Profile Explanation
 
@@ -212,7 +241,10 @@ In this exercise you will:
 # 2) The lines you added to ~/.bashrc or ~/.profile
 # 3) Your explanation (3–5 sentences) of shell init files and sourcing vs. executing
 ```
-
+- ~/.bashrc wird bei jeder interaktiven Nicht-Login-Shell (z. B. neues Terminal) ausgeführt.
+	- ~/.profile wird für alle Login-Shells ausgeführt (Anmeldung über SSH, oder Konsole).
+	- source führt das Skript im aktuellen Kontext der Shell aus, was den Zugriff auf Variablen oder Änderungen ermöglicht.
+	- ./script.sh würde in einem neuen Bash-Prozess ausgeführt.
 ---
 
 **Remember:** Stop working after **90 minutes** and record where you stopped.
